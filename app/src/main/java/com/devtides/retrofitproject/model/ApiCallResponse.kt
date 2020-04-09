@@ -6,7 +6,8 @@ data class ApiCallResponse(
     val method: String?,
     val query: Map<String, String>?,
     @SerializedName("headers")
-    val heads: Map<String, String>?
+    val heads: Map<String, String>?,
+    val body: Map<String, String>?
 ) {
     fun flatten(): List<Item> {
         val flatpack = arrayListOf<Item>()
@@ -16,6 +17,13 @@ data class ApiCallResponse(
             if (!query.values.isEmpty()) {
                 flatpack.add(Item("query", "", TYPE_CATEGORY))
                 addMapItems(query, flatpack)
+            }
+        }
+
+        body?.let {
+            if (!body.values.isEmpty()) {
+                flatpack.add(Item("body", "", TYPE_CATEGORY))
+                addMapItems(body, flatpack)
             }
         }
 
